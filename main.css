@@ -14,7 +14,7 @@ a {
 }
 
 ul {
-  border-left: 3px solid #009688;
+  border-left: 3px solid #424242;
   padding: 0 24px;
   margin-left: 16px;
 }
@@ -31,11 +31,11 @@ li {
 
 .active, .active > div, .active [role="menuitem"] {
   background: #eee;
-  color: #009688 !important;
+  color: #424242 !important;
 }
 
 .active [role="menuitem"] svg {
-  fill: #009688 !important;
+  fill: #424242 !important;
 }
 
 .Subheader__flush-left {
