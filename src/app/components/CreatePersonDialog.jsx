@@ -63,7 +63,7 @@ export default class CreatePersonDialog extends React.Component {
 
     this.setState({
       role: filteredRoles(rolesList),
-    }, () => console.warn(this.state));
+    });
   }
 
   render() {
