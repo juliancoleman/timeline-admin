@@ -24,7 +24,7 @@ export default class Person extends React.Component {
         {keys.map((prop, idx) => (
           <div key={idx + 100}>
             <p key={idx + 50}>{prop}</p>
-            <p key={idx}>{this.state.person[prop]}</p>
+            <p key={idx}>{JSON.stringify(this.state.person[prop])}</p>
           </div>
         ))}
       </div>
