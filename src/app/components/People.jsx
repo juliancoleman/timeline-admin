@@ -60,8 +60,6 @@ export default class People extends React.Component {
   }
 
   handleDialogSubmit(user) {
-    console.log(user);
-
     return () => Api.createUser(user)
       .then(response => response.json())
       .then((createdUser) => {

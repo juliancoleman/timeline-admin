@@ -14,7 +14,7 @@ export default class Person extends React.Component {
 
   componentDidMount() {
     Api.getUser(this.props.match.params.userId)
-      .then(person => this.setState({ person }));
+      .then(person => this.setState({ person }, () => console.warn(this.state.person)));
   }
 
   render() {
