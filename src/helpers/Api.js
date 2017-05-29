@@ -12,6 +12,16 @@ const getHeaders = () => new Headers({
   "Authorization": `Bearer ${localStorage.getItem("token")}`,
 });
 
+const parseQuery = (url, query) => {
+  query = R.pick(R.identity, query);
+
+  const q = Object.keys(query)
+    .map(e => `${encodeURIComponent(e)}=${encodeURIComponent(query[e])}`)
+    .join("&");
+
+  return `${url}?${q}`;
+};
+
 const Api = {
   authenticate(email_address, password) { // eslint-disable-line
     return fetch(`${uri}/sessions`, {
@@ -31,6 +41,28 @@ const Api = {
       }),
     })
     .then(response => response.json());
+  },
+
+  getUsers({ roles, enrolled, pageSize, page, sort }) {
+    return fetch(parseQuery(`${uri}/users`, { roles, enrolled, pageSize, page, sort }), {
+      method: "GET",
+      headers: getHeaders(),
+    })
+    .then(response => response.json());
+  },
+  getUser(userId) {
+    return fetch(`${uri}/users/${userId}`, {
+      method: "GET",
+      headers: getHeaders(),
+    })
+    .then(response => response.json());
+  },
+  createUser(body) {
+    return fetch(`${uri}/users`, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: getHeaders(),
+    });
   },
 };
 

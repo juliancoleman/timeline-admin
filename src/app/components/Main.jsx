@@ -11,6 +11,8 @@ import {
 } from "material-ui";
 
 import Home from "material-ui/svg-icons/action/home";
+import People from "material-ui/svg-icons/social/people";
+import PersonPin from "material-ui/svg-icons/maps/person-pin";
 import Lock from "material-ui/svg-icons/action/lock";
 
 import AuthService from "../../helpers/AuthService";
@@ -55,6 +57,20 @@ export default class Main extends React.Component {
               primaryText="Home"
               onTouchTap={this.handleDrawerClose}
               leftIcon={<Home />}
+            />
+          </NavLink>
+          <NavLink exact to="/people" activeClassName="active">
+            <MenuItem
+              primaryText="People"
+              onTouchTap={this.handleDrawerClose}
+              leftIcon={<People />}
+            />
+          </NavLink>
+          <NavLink exact to="/camps" activeClassName="active">
+            <MenuItem
+              primaryText="Camps"
+              onTouchTap={this.handleDrawerClose}
+              leftIcon={<PersonPin />}
             />
           </NavLink>
           <NavLink exact to="/login" activeClassName="active" onTouchTap={() => AuthService.logout()}>
