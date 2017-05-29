@@ -1,0 +1,39 @@
+* {
+  font-family: 'Roboto', 'Noto Color Emoji', sans-serif;
+}
+
+body {
+  /*font-size: 13px;*/
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+#app {
+  background: #fafafa;
+}
+
+.active, .active > div, .active [role="menuitem"] {
+  background: #eee;
+  color: #009688 !important;
+}
+
+.active [role="menuitem"] svg {
+  fill: #009688 !important;
+}
+
+.responsive-card {
+  max-width: 350px;
+  margin: 8px auto;
+}
+
+@media screen and (max-width: 767px) {
+  .responsive-card {
+    max-width: calc(100% - 16px);
+    margin: 8px auto;
+  }
+}
