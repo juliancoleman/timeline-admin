@@ -64,6 +64,12 @@ const Api = {
       headers: getHeaders(),
     });
   },
+  deleteUser(userId) {
+    return fetch(`${uri}/users/${userId}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+  },
 };
 
 module.exports = Api;
