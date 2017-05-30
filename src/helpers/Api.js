@@ -126,6 +126,21 @@ const Api = {
       headers: getHeaders(),
     });
   },
+
+  // camps
+  getCamps() {
+    return fetch(`${uri}/camps`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+  },
+  createCamp(body) {
+    return fetch(`${uri}/camps`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify(body),
+    });
+  },
 };
 
 module.exports = Api;

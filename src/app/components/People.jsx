@@ -63,7 +63,9 @@ export default class People extends React.Component {
     return () => Api.createUser(user)
       .then(response => response.json())
       .then((createdUser) => {
-        this.setState({ dialogOpen: false }, () => this.props.history.push(`/person/${createdUser.id}`));
+        this.setState({ dialogOpen: false }, () => {
+          this.props.history.push(`/person/${createdUser.id}`);
+        });
       });
   }
 
