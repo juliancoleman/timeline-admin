@@ -87,7 +87,7 @@ const Api = {
       "barcodeNumber",
     ];
 
-    const body = format(R.pick(allowedFields, user)); // eslint-disable-line
+    const body = format(R.pick(allowedFields, user));
 
     return fetch(`${uri}/users/${user.id}`, {
       method: "PUT",
@@ -134,9 +134,30 @@ const Api = {
       headers: getHeaders(),
     });
   },
+  getCamp(campId) {
+    return fetch(`${uri}/camps/${campId}`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+  },
   createCamp(body) {
     return fetch(`${uri}/camps`, {
       method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify(body),
+    });
+  },
+  updateCamp(camp) {
+    const allowedFields = [
+      "busNumber",
+      "campus",
+      "type",
+    ];
+
+    const body = format(R.pick(allowedFields, camp));
+
+    return fetch(`${uri}/camps/${camp.id}`, {
+      method: "PUT",
       headers: getHeaders(),
       body: JSON.stringify(body),
     });
