@@ -58,7 +58,6 @@ export default class Person extends React.Component {
   updateUser() {
     Api.updateUser(this.state.person)
       .then((person) => {
-        console.warn(person);
         this.setState({ person });
       });
   }
@@ -109,7 +108,7 @@ export default class Person extends React.Component {
               return response.json();
             }
 
-            throw new Error("You're a li'l nugget");
+            throw new Error("Unable to add role");
           })
           .then((newRole) => {
             this.setState({
