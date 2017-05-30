@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import People from "./components/People";
 import Person from "./components/Person";
 import Camps from "./components/Camps";
+import Camp from "./components/Camp";
 import NotFound from "./components/NotFound";
 
 import AuthService from "../helpers/AuthService";
@@ -52,6 +53,7 @@ const App = () => (
           <PrivateRoute path="/people" component={People} />
           <PrivateRoute path="/person/:userId" component={Person} />
           <PrivateRoute path="/camps" component={Camps} />
+          <PrivateRoute path="/camp/:campId" component={Camp} />
           <Route component={NotFound} />
         </Switch>
       </Main>

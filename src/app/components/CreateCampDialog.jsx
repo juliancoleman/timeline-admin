@@ -54,25 +54,21 @@ export default class CreateCampDialog extends React.Component {
         modal
         open={this.props.dialogOpen || false}
       >
-        <div>
-          <TextField
-            name="bus_number"
-            type="number"
-            floatingLabelText="Bus number"
-            onChange={this.handleInputChange}
-          />
-        </div>
-        <div>
-          <DropDownMenu value={this.state.campus} onChange={this.handleCampusChange}>
-            <MenuItem value="North" primaryText="North" />
-            <MenuItem value="Fig Garden" primaryText="Fig Garden" />
-            <MenuItem value="Southeast" primaryText="Southeast" />
-          </DropDownMenu>
-          <DropDownMenu value={this.state.type} onChange={this.handleTypeChange}>
-            <MenuItem value="K-2" primaryText="K-2" />
-            <MenuItem value="3-6" primaryText="3-6" />
-          </DropDownMenu>
-        </div>
+        <TextField
+          name="bus_number"
+          type="number"
+          floatingLabelText="Bus number"
+          onChange={this.handleInputChange}
+        />
+        <DropDownMenu value={this.state.campus || "North"} onChange={this.handleCampusChange} style={{ verticalAlign: "-81%" }}>
+          <MenuItem value="North" primaryText="North" />
+          <MenuItem value="Fig Garden" primaryText="Fig Garden" />
+          <MenuItem value="Southeast" primaryText="Southeast" />
+        </DropDownMenu>
+        <DropDownMenu value={this.state.type || "K-2"} onChange={this.handleTypeChange} style={{ verticalAlign: "-81%" }}>
+          <MenuItem value="K-2" primaryText="K-2" />
+          <MenuItem value="3-6" primaryText="3-6" />
+        </DropDownMenu>
       </Dialog>
     );
   }
