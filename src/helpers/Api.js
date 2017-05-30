@@ -1,4 +1,5 @@
 const R = require("ramda");
+const string = require("underscore.string");
 
 const protocol = R.defaultTo("https", process.env.PROTOCOL);
 const domain = R.defaultTo("summerpalooza.herokuapp.com", process.env.DOMAIN);
@@ -22,7 +23,13 @@ const parseQuery = (url, query) => {
   return `${url}?${q}`;
 };
 
+const mapKeys = R.curry((fn, obj) =>
+  R.fromPairs(R.map(R.adjust(fn, 0), R.toPairs(obj))));
+
+const format = attrs => mapKeys(string.underscored, attrs);
+
 const Api = {
+  // authentication
   authenticate(email_address, password) { // eslint-disable-line
     return fetch(`${uri}/sessions`, {
       method: "POST",
@@ -43,6 +50,7 @@ const Api = {
     .then(response => response.json());
   },
 
+  // users
   getUsers({ roles, enrolled, pageSize, page, sort }) {
     return fetch(parseQuery(`${uri}/users`, { roles, enrolled, pageSize, page, sort }), {
       method: "GET",
@@ -64,8 +72,56 @@ const Api = {
       headers: getHeaders(),
     });
   },
+  updateUser(user) {
+    const allowedFields = [
+      "firstName",
+      "lastName",
+      "campus",
+      "homeAddress",
+      "emailAddress",
+      "phoneNumber",
+      "emergencyContactName",
+      "emergencyContactNumber",
+      "emergencyContactRelationship",
+      "allergies",
+      "barcodeNumber",
+    ];
+
+    const body = format(R.pick(allowedFields, user)); // eslint-disable-line
+
+    return fetch(`${uri}/users/${user.id}`, {
+      method: "PUT",
+      headers: getHeaders(),
+      body: JSON.stringify(body),
+    })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error(response.error);
+    });
+  },
   deleteUser(userId) {
     return fetch(`${uri}/users/${userId}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+  },
+
+  // roles
+  addRole(email_address, role) { // eslint-disable-line
+    return fetch(`${uri}/roles`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({
+        email_address,
+        role,
+      }),
+    });
+  },
+  removeRole({ id: roleId }) {
+    return fetch(`${uri}/roles/${roleId}`, {
       method: "DELETE",
       headers: getHeaders(),
     });
