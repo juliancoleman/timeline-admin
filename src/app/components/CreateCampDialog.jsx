@@ -14,8 +14,8 @@ export default class CreateCampDialog extends React.Component {
     super(props);
 
     this.state = {
-      type: "",
-      campus: "",
+      type: "K-2",
+      campus: "North",
       bus_number: "",
     };
 
@@ -60,12 +60,12 @@ export default class CreateCampDialog extends React.Component {
           floatingLabelText="Bus number"
           onChange={this.handleInputChange}
         />
-        <DropDownMenu value={this.state.campus || "North"} onChange={this.handleCampusChange} style={{ verticalAlign: "-81%" }}>
+        <DropDownMenu value={this.state.campus} onChange={this.handleCampusChange} style={{ verticalAlign: "-81%" }}>
           <MenuItem value="North" primaryText="North" />
           <MenuItem value="Fig Garden" primaryText="Fig Garden" />
           <MenuItem value="Southeast" primaryText="Southeast" />
         </DropDownMenu>
-        <DropDownMenu value={this.state.type || "K-2"} onChange={this.handleTypeChange} style={{ verticalAlign: "-81%" }}>
+        <DropDownMenu value={this.state.type} onChange={this.handleTypeChange} style={{ verticalAlign: "-81%" }}>
           <MenuItem value="K-2" primaryText="K-2" />
           <MenuItem value="3-6" primaryText="3-6" />
         </DropDownMenu>
