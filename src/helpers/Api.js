@@ -162,6 +162,12 @@ const Api = {
       body: JSON.stringify(body),
     });
   },
+  deleteCamp(campId) {
+    return fetch(`${uri}/camps/${campId}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+  },
 };
 
 module.exports = Api;
