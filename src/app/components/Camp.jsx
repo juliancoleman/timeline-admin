@@ -48,7 +48,8 @@ export default class Camp extends React.Component {
   }
 
   deleteCamp() {
-    console.warn("deleteCamp() not implemented");
+    Api.deleteCamp(this.state.camp.id)
+      .then(() => this.props.history.push("/camps"));
   }
 
   updateCamp() {
