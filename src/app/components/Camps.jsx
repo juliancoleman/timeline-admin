@@ -6,6 +6,7 @@ import {
   CardActions,
   FlatButton,
   FloatingActionButton,
+  Subheader,
 } from "material-ui";
 
 import ContentAdd from "material-ui/svg-icons/content/add";
@@ -68,6 +69,12 @@ export default class Camps extends React.Component {
 
     return (
       <div>
+        {!camps.length > 0 && (
+          <Subheader style={{ display: "flex", justifyContent: "center" }}>
+            No camps yet. Click the Floating Action Button below to create one!
+          </Subheader>
+        )}
+
         <div className="flex-grid">
           {camps.map(({ id, type, campus, busNumber }) => (
             <Card key={id}>
