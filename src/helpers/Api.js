@@ -168,6 +168,41 @@ const Api = {
       headers: getHeaders(),
     });
   },
+
+  // camps
+  createItinerary(campId, { location, eventDate, eventTime }) {
+    const timePieceIndex = 4;
+    const secondsIndex = 2;
+
+    const resetSeconds = R.pipe(
+      R.split(" "),
+      R.nth(timePieceIndex),
+      R.split(":"),
+      R.adjust(R.always("00"), secondsIndex),
+      R.join(":") // eslint-disable-line
+    );
+
+    const newTime = resetSeconds(eventTime.toString());
+
+    const mergeTimeAndDatePieces = R.pipe(
+      R.split(" "),
+      R.update(timePieceIndex, newTime),
+      R.join(" ") // eslint-disable-line
+    );
+
+    const event_date = new Date(mergeTimeAndDatePieces(eventDate.toString())).toString(); // eslint-disable-line
+
+    const body = {
+      location,
+      event_date,
+    };
+
+    return fetch(`${uri}/camps/${campId}/itineraries`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify(body),
+    });
+  },
 };
 
 module.exports = Api;
