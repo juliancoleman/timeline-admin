@@ -67,7 +67,7 @@ li {
   width: calc(25% - 6px);
   margin-bottom: 8px;
 }
-.flex-grid > div:not(:nth-of-type(n + 4)) {
+.flex-grid > div:not(:nth-of-type(4n + 4)) {
   margin-right: 8px;
 }
 
