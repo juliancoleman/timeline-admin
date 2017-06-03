@@ -17,6 +17,8 @@ import {
   TableRowColumn,
   TextField,
   TimePicker,
+  Toolbar,
+  ToolbarGroup,
 } from "material-ui";
 
 import HighlightOff from "material-ui/svg-icons/action/highlight-off";
@@ -205,34 +207,40 @@ export default class Camp extends React.Component {
         />
 
         <Subheader className="Subheader__flush-left">Itineraries</Subheader>
-        <TextField
-          style={{ marginRight: 12 }}
-          floatingLabelText="Location"
-          name="location"
-          type="string"
-          onChange={this.handleLocationChange}
-        />
-        <DatePicker
-          style={{ marginRight: 12, display: "inline-block" }}
-          floatingLabelText="Event date"
-          container="inline"
-          value={newItinerary.eventDate}
-          onChange={this.handleDateChange}
-        />
-        <TimePicker
-          style={{ marginRight: 12, display: "inline-block" }}
-          floatingLabelText="Event time"
-          format="24hr"
-          value={newItinerary.eventTime}
-          onChange={this.handleTimeChange}
-        />
-        <RaisedButton
-          primary
-          label="create"
-          onTouchTap={this.createItinerary}
-        />
+        <Toolbar>
+          <ToolbarGroup firstChild>
+            <TextField
+              style={{ marginLeft: 12, marginRight: 12 }}
+              floatingLabelText="Location"
+              name="location"
+              type="string"
+              onChange={this.handleLocationChange}
+            />
+            <DatePicker
+              style={{ marginRight: 12, display: "inline-block" }}
+              floatingLabelText="Event date"
+              container="inline"
+              value={newItinerary.eventDate}
+              onChange={this.handleDateChange}
+            />
+            <TimePicker
+              style={{ marginRight: 12, display: "inline-block" }}
+              floatingLabelText="Event time"
+              format="24hr"
+              value={newItinerary.eventTime}
+              onChange={this.handleTimeChange}
+            />
+          </ToolbarGroup>
+          <ToolbarGroup>
+            <RaisedButton
+              primary
+              label="create itinerary"
+              onTouchTap={this.createItinerary}
+            />
+          </ToolbarGroup>
+        </Toolbar>
 
-        <Table selectable={false}>
+        <Table selectable={false} style={{ marginTop: 12 }}>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn>Location</TableHeaderColumn>
