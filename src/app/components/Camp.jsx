@@ -25,6 +25,8 @@ import HighlightOff from "material-ui/svg-icons/action/highlight-off";
 
 import Api from "../../helpers/Api";
 
+const groupByRole = R.compose(R.groupBy(R.prop("name")), R.view(R.lensProp("roles")));
+
 export default class Camp extends React.Component {
   constructor(props) {
     super(props);
@@ -35,12 +37,18 @@ export default class Camp extends React.Component {
         type: "",
         campus: "",
         itineraries: [],
+        roles: [{ name: "" }],
       },
       newItinerary: {
         location: "",
         eventDate: new Date(),
         eventTime: new Date(),
-      }
+      },
+      roleGroups: {
+        "Campus Leader": [],
+        "Small Group Leader": [],
+        "Student": [],
+      },
     };
 
     this.getCamp = this.getCamp.bind(this);
@@ -54,7 +62,7 @@ export default class Camp extends React.Component {
 
   componentDidMount() {
     this.getCamp()
-      .then(camp => this.setState({ camp }));
+      .then(camp => this.setState({ camp, roleGroups: R.merge(this.state.roleGroups, groupByRole(camp)) }));
   }
 
   getCamp() {
@@ -163,7 +171,7 @@ export default class Camp extends React.Component {
   }
 
   render() {
-    const { camp, newItinerary } = this.state;
+    const { camp, newItinerary, roleGroups } = this.state;
 
     return (
       <div style={{ padding: 24 }}>
@@ -192,19 +200,34 @@ export default class Camp extends React.Component {
             <MenuItem value="K-2" primaryText="K-2" />
             <MenuItem value="3-6" primaryText="3-6" />
           </DropDownMenu>
+
+          <RaisedButton
+            primary
+            label="update"
+            onTouchTap={this.updateCamp}
+          />
+          <FlatButton
+            primary
+            label="delete"
+            onTouchTap={this.deleteCamp}
+            style={{ marginRight: 12 }}
+          />
         </div>
 
-        <FlatButton
-          primary
-          label="delete"
-          onTouchTap={this.deleteCamp}
-          style={{ marginRight: 12 }}
-        />
-        <RaisedButton
-          primary
-          label="update"
-          onTouchTap={this.updateCamp}
-        />
+        <Subheader className="Subheader__flush-left">Campus Leaders</Subheader>
+        {roleGroups["Campus Leader"].map((person, idx) => (
+          <p key={idx + 1}>{person.user.firstName} {person.user.lastName}</p>
+        ))}
+
+        <Subheader className="Subheader__flush-left">Small Group Leaders</Subheader>
+        {roleGroups["Small Group Leader"].map((person, idx) => (
+          <p key={idx + 1}>{person.user.firstName} {person.user.lastName}</p>
+        ))}
+
+        <Subheader className="Subheader__flush-left">Students</Subheader>
+        {roleGroups["Student"].map((person, idx) => (
+          <p key={idx + 1}>{person.user.firstName} {person.user.lastName}</p>
+        ))}
 
         <Subheader className="Subheader__flush-left">Itineraries</Subheader>
         <Toolbar>
