@@ -134,6 +134,19 @@ const Api = {
       headers: getHeaders(),
     });
   },
+  getUserCamps(userId, enrolled = true) {
+    return fetch(`${uri}/users/${userId}/camps?enrolled=${enrolled}`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+  },
+  addUserToCamp(userId, camp_id, role) { // eslint-disable-line
+    return fetch(`${uri}/users/${userId}/camps`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({ camp_id, role }),
+    });
+  },
   getCamp(campId) {
     return fetch(`${uri}/camps/${campId}`, {
       method: "GET",
