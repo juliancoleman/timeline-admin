@@ -20,6 +20,7 @@ import {
 } from "material-ui";
 
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
+import HighlightOff from "material-ui/svg-icons/action/highlight-off";
 
 import Api from "../../helpers/Api";
 
@@ -46,6 +47,7 @@ export default class Person extends React.Component {
     this.updateUser = this.updateUser.bind(this);
     this.getUserCamps = this.getUserCamps.bind(this);
     this.addUserToCamp = this.addUserToCamp.bind(this);
+    this.removeUserFromCamp = this.removeUserFromCamp.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
 
@@ -104,12 +106,26 @@ export default class Person extends React.Component {
           return response.json();
         }
 
-        throw new Error("Unable to get user Camps");
+        throw new Error("Unable to add user to camp");
       })
       .then(camp => this.setState({
         unenrolledCamps: R.reject(R.propEq("id", camp.id), this.state.unenrolledCamps),
         enrolledCamps: R.append(camp, this.state.enrolledCamps),
       }));
+  }
+
+  removeUserFromCamp(camp) {
+    Api.removeUserFromCamp(this.props.match.params.userId, camp.id)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Unable to remove user from camp");
+        }
+
+        this.setState({
+          enrolledCamps: R.reject(R.propEq("id", camp.id), this.state.enrolledCamps),
+          unenrolledCamps: R.append(camp, this.state.unenrolledCamps),
+        });
+      });
   }
 
   handleInputChange({ target }) {
@@ -366,7 +382,22 @@ export default class Person extends React.Component {
           <Card style={{ flex: 1 }}>
             <CardTitle title="Enrolled Camps" />
             <CardText>
-              {this.state.enrolledCamps.toString()}
+              <List>
+                {enrolledCamps.map((camp, index) => {
+                  const { id, busNumber, campus, type } = camp
+                  return (
+                    <ListItem
+                      key={index + 1}
+                      primaryText={`Bus ${busNumber} - ${type} ${campus}`}
+                      rightIconButton={
+                        <IconButton onTouchTap={() => this.removeUserFromCamp(camp)}>
+                          <HighlightOff />
+                        </IconButton>
+                      }
+                    />
+                  );
+                })}
+              </List>
             </CardText>
           </Card>
         </div>
