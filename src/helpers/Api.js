@@ -147,6 +147,12 @@ const Api = {
       body: JSON.stringify({ camp_id, role }),
     });
   },
+  removeUserFromCamp(userId, campId) {
+    return fetch(`${uri}/users/${userId}/camps/${campId}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+  },
   getCamp(campId) {
     return fetch(`${uri}/camps/${campId}`, {
       method: "GET",
