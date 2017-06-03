@@ -203,6 +203,12 @@ const Api = {
       body: JSON.stringify(body),
     });
   },
+  deleteItinerary(itineraryId) {
+    return fetch(`${uri}/itineraries/${itineraryId}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+  },
 };
 
 module.exports = Api;
