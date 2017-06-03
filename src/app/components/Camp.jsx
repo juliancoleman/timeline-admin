@@ -21,11 +21,11 @@ import {
   ToolbarGroup,
 } from "material-ui";
 
-import HighlightOff from "material-ui/svg-icons/action/highlight-off";
+import Delete from "material-ui/svg-icons/action/delete";
 
 import Api from "../../helpers/Api";
 
-const groupByRole = R.compose(R.groupBy(R.prop("name")), R.view(R.lensProp("roles")));
+const groupByRole = R.compose(R.groupBy(R.prop("name")), R.prop("roles"));
 
 export default class Camp extends React.Component {
   constructor(props) {
@@ -285,7 +285,7 @@ export default class Camp extends React.Component {
                   <TableRowColumn>{eventTime}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => this.deleteItinerary(itinerary.id)}>
-                      <HighlightOff />
+                      <Delete />
                     </IconButton>
                   </TableRowColumn>
                 </TableRow>
