@@ -267,7 +267,7 @@ export default class Person extends React.Component {
           onChange={this.handleInputChange}
         />
 
-        <Subheader>Emergency contact information</Subheader>
+        <Subheader className="Subheader__flush-left">Emergency contact information</Subheader>
 
         <div style={{ display: "flex" }}>
           <TextField
