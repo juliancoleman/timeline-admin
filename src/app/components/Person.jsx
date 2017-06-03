@@ -3,14 +3,23 @@ import R from "ramda";
 import string from "underscore.string";
 
 import {
+  Card,
+  CardText,
+  CardTitle,
   DropDownMenu,
   FlatButton,
+  IconButton,
+  IconMenu,
+  List,
+  ListItem,
   MenuItem,
   RaisedButton,
   Subheader,
   TextField,
   Toggle,
 } from "material-ui";
+
+import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 
 import Api from "../../helpers/Api";
 
@@ -28,15 +37,27 @@ export default class Person extends React.Component {
         "Campus Leader": false,
         "Admin": false,
       },
+      enrolledCamps: [],
+      unenrolledCamps: [],
     };
 
+    this.getUser = this.getUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.updateUser = this.updateUser.bind(this);
+    this.getUserCamps = this.getUserCamps.bind(this);
+    this.addUserToCamp = this.addUserToCamp.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+
   }
 
   componentDidMount() {
+    this.getUser();
+    this.getUserCamps(true);
+    this.getUserCamps(false);
+  }
+
+  getUser() {
     Api.getUser(this.props.match.params.userId)
       .then((person) => {
         person.roles.forEach(({ name }) => {
@@ -60,6 +81,35 @@ export default class Person extends React.Component {
       .then((person) => {
         this.setState({ person });
       });
+  }
+
+  getUserCamps(enrolled) {
+    const campType = enrolled ? "enrolledCamps" : "unenrolledCamps";
+
+    Api.getUserCamps(this.props.match.params.userId, enrolled)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        throw new Error("Unable to get user Camps");
+      })
+      .then(camps => this.setState(R.objOf(campType, camps)));
+  }
+
+  addUserToCamp(campId, roleName) {
+    Api.addUserToCamp(this.props.match.params.userId, campId, roleName)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        throw new Error("Unable to get user Camps");
+      })
+      .then(camp => this.setState({
+        unenrolledCamps: R.reject(R.propEq("id", camp.id), this.state.unenrolledCamps),
+        enrolledCamps: R.append(camp, this.state.enrolledCamps),
+      }));
   }
 
   handleInputChange({ target }) {
@@ -123,9 +173,21 @@ export default class Person extends React.Component {
   }
 
   render() {
+    const { rolesSet, enrolledCamps, unenrolledCamps } = this.state;
+    const iconButtonElement = (
+      <IconButton
+        tooltip="Choose role"
+        tooltipPosition="bottom-center"
+      >
+        <MoreVertIcon />
+      </IconButton>
+    );
+
+    const filteredRoles = R.reject(R.equals("Admin"), R.keys(R.filter(R.identity, rolesSet)));
+
     return (
       <div style={{ padding: 24 }}>
-        <Subheader>Basic information</Subheader>
+        <Subheader className="Subheader__flush-left">Basic information</Subheader>
 
         <div style={{ display: "flex" }}>
           <TextField
@@ -215,7 +277,19 @@ export default class Person extends React.Component {
           />
         </div>
 
-        <Subheader>Roles</Subheader>
+        <FlatButton
+          primary
+          label="delete"
+          onTouchTap={this.deleteUser}
+          style={{ marginRight: 12 }}
+        />
+        <RaisedButton
+          primary
+          label="update"
+          onTouchTap={this.updateUser}
+        />
+
+        <Subheader className="Subheader__flush-left">Roles</Subheader>
 
         <div style={{ display: "flex" }}>
           <div style={{ marginBottom: 18, width: "50%" }}>
@@ -257,17 +331,45 @@ export default class Person extends React.Component {
           </div>
         </div>
 
-        <FlatButton
-          primary
-          label="delete"
-          onTouchTap={this.deleteUser}
-          style={{ marginRight: 12 }}
-        />
-        <RaisedButton
-          primary
-          label="update"
-          onTouchTap={this.updateUser}
-        />
+        {/* Enrolled and Unenrolled Camps */}
+
+        <div style={{ display: "flex" }}>
+          <Card style={{ flex: 1, marginRight: 12 }}>
+            <CardTitle title="Unenrolled Camps" />
+            <CardText>
+              <List>
+                {unenrolledCamps.map(({ id, busNumber, campus, type }, index) => {
+                  const rightIconMenu = (
+                    <IconMenu iconButtonElement={iconButtonElement}>
+                      {filteredRoles.map((role, idx) => (
+                        <MenuItem
+                          key={idx + 1}
+                          onTouchTap={() => this.addUserToCamp(id, role)}
+                        >
+                          {role}
+                        </MenuItem>
+                      ))}
+                    </IconMenu>
+                  );
+
+                  return (
+                    <ListItem
+                      key={index + 1}
+                      primaryText={`Bus ${busNumber} - ${type} ${campus}`}
+                      rightIconButton={rightIconMenu}
+                    />
+                  );
+                })}
+              </List>
+            </CardText>
+          </Card>
+          <Card style={{ flex: 1 }}>
+            <CardTitle title="Enrolled Camps" />
+            <CardText>
+              {this.state.enrolledCamps.toString()}
+            </CardText>
+          </Card>
+        </div>
       </div>
     );
   }
