@@ -7,6 +7,7 @@ const config = {
   // Entry points to the project
   entry: {
     main: [
+      "whatwg-fetch",
       // only- means to only hot reload for successful updates
       "babel-polyfill",
       "webpack/hot/only-dev-server",

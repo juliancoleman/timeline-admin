@@ -4,6 +4,7 @@ const path = require("path");
 const config = {
   entry: {
     main: [
+      "whatwg-fetch",
       "babel-polyfill",
       "./src/app/index.jsx",
     ],
