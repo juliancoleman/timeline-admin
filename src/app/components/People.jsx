@@ -26,7 +26,7 @@ export default class People extends React.Component {
 
     this.state = {
       people: [],
-      pageSize: 2,
+      pageSize: 25,
       page: 1,
       dialogOpen: false,
       paginationData: {
