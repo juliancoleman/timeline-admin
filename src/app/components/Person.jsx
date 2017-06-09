@@ -354,7 +354,11 @@ export default class Person extends React.Component {
             <CardTitle title="Unenrolled Camps" />
             <CardText>
               <List>
-                {unenrolledCamps.map(({ id, busNumber, campus, type }, index) => {
+                {unenrolledCamps.map(({ id, busNumber, campus, type, roles }, index) => {
+                  const smallGroupLeader = R.propOr("", "user", R.find(R.propEq("name", "Small Group Leader"), roles));
+                  const smallGroupLeaderName = `${smallGroupLeader.firstName || ""} ${smallGroupLeader.lastName || ""}`;
+                  const listTitle = `${smallGroupLeaderName}${smallGroupLeaderName.length > 1 ? " - " : ""}${type}`;
+
                   const rightIconMenu = (
                     <IconMenu iconButtonElement={iconButtonElement}>
                       {filteredRoles.map((role, idx) => (
@@ -371,7 +375,7 @@ export default class Person extends React.Component {
                   return (
                     <ListItem
                       key={index + 1}
-                      primaryText={`Bus ${busNumber} - ${type} ${campus}`}
+                      primaryText={listTitle}
                       rightIconButton={rightIconMenu}
                     />
                   );
@@ -384,11 +388,15 @@ export default class Person extends React.Component {
             <CardText>
               <List>
                 {enrolledCamps.map((camp, index) => {
-                  const { id, busNumber, campus, type } = camp
+                  const { id, busNumber, campus, type, roles } = camp;
+                  const smallGroupLeader = R.propOr("", "user", R.find(R.propEq("name", "Small Group Leader"), roles));
+                  const smallGroupLeaderName = `${smallGroupLeader.firstName || ""} ${smallGroupLeader.lastName || ""}`;
+                  const listTitle = `${smallGroupLeaderName}${smallGroupLeaderName.length > 1 ? " - " : ""}${type}`;
+
                   return (
                     <ListItem
                       key={index + 1}
-                      primaryText={`Bus ${busNumber} - ${type} ${campus}`}
+                      primaryText={listTitle}
                       rightIconButton={
                         <IconButton onTouchTap={() => this.removeUserFromCamp(camp)}>
                           <HighlightOff />

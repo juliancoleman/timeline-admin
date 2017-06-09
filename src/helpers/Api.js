@@ -51,8 +51,8 @@ const Api = {
   },
 
   // users
-  getUsers({ roles, enrolled, pageSize, page, sort }) {
-    return fetch(parseQuery(`${uri}/users`, { roles, enrolled, pageSize, page, sort }), {
+  getUsers(pageSize = 25, page) {
+    return fetch(`${uri}/users?pageSize=${pageSize}&page=${page}`, {
       method: "GET",
       headers: getHeaders(),
     })
