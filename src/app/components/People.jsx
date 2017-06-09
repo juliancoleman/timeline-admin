@@ -26,9 +26,15 @@ export default class People extends React.Component {
 
     this.state = {
       people: [],
-      sort: "first_name",
-      pageSize: 25,
+      pageSize: 2,
       page: 1,
+      dialogOpen: false,
+      paginationData: {
+        page: 1,
+        pageCount: 1,
+        pageSize: 25,
+        rowCount: 1,
+      },
       tableHeaders: [
         { key: 1, header: "id", title: "id" },
         { key: 2, header: "firstName", title: "First name" },
@@ -36,19 +42,26 @@ export default class People extends React.Component {
         { key: 4, header: "campus", title: "Campus" },
         { key: 5, header: "barcodeNumber", title: "Barcode number" },
       ],
-      dialogOpen: false,
     };
 
+    this.getUsers = this.getUsers.bind(this);
     this.handleDialogOpen = this.handleDialogOpen.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDialogSubmit = this.handleDialogSubmit.bind(this);
   }
 
   componentDidMount() {
-    const { sort, pageSize, page } = this.state;
+    const { page } = this.state;
 
-    Api.getUsers({ sort, pageSize, page })
-      .then(response => this.setState({ people: response.users }));
+    this.getUsers(page);
+  }
+
+  getUsers(page) {
+    Api.getUsers(this.state.pageSize, page)
+      .then(({ users: people, paginationData }) => this.setState({
+        people,
+        paginationData,
+      }));
   }
 
   handleDialogOpen() {
@@ -70,6 +83,7 @@ export default class People extends React.Component {
   }
 
   render() {
+    const { page, pageCount } = this.state.paginationData;
     return (
       <div>
         <Card style={{ margin: 8 }}>
@@ -97,8 +111,18 @@ export default class People extends React.Component {
             </Table>
           </CardText>
           <CardActions>
-            <FlatButton primary label="prev" />
-            <FlatButton primary label="next" />
+            <FlatButton
+              primary
+              label="prev"
+              disabled={page === 1}
+              onTouchTap={() => this.getUsers(page - 1)}
+            />
+            <FlatButton
+              primary
+              label="next"
+              disabled={page === pageCount}
+              onTouchTap={() => this.getUsers(page + 1)}
+            />
           </CardActions>
         </Card>
 
