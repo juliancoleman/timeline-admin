@@ -1,9 +1,11 @@
 import React from "react";
+import R from "ramda";
 
 import {
   Card,
   CardTitle,
   CardActions,
+  CardText,
   FlatButton,
   FloatingActionButton,
   Subheader,
@@ -67,6 +69,24 @@ export default class Camps extends React.Component {
   render() {
     const { camps } = this.state;
 
+    const campCards = camps.map(({ id, type, campus, busNumber, enrollment, roles }) => {
+      const smallGroupLeader = R.propOr("", "user", R.find(R.propEq("name", "Small Group Leader"), roles));
+      const smallGroupLeaderName = `${smallGroupLeader.firstName || ""} ${smallGroupLeader.lastName || ""}`;
+      const cardTitle = `${smallGroupLeaderName}${smallGroupLeaderName.length > 1 ? " - " : ""}${campus}`;
+
+      return (
+        <Card key={id}>
+          <CardTitle title={cardTitle} subtitle={`${enrollment} students`} />
+          <CardText>
+            Bus {busNumber} - {type}
+          </CardText>
+          <CardActions>
+            <FlatButton label="view" onTouchTap={() => this.props.history.push(`/camp/${id}`)} />
+          </CardActions>
+        </Card>
+      );
+    });
+
     return (
       <div>
         {!camps.length > 0 && (
@@ -76,14 +96,7 @@ export default class Camps extends React.Component {
         )}
 
         <div className="flex-grid">
-          {camps.map(({ id, type, campus, busNumber }) => (
-            <Card key={id}>
-              <CardTitle title={campus} subtitle={`${type} - Bus ${busNumber}`} />
-              <CardActions>
-                <FlatButton label="view" onTouchTap={() => this.props.history.push(`/camp/${id}`)} />
-              </CardActions>
-            </Card>
-          ))}
+          {campCards}
         </div>
 
         <CreateCampDialog
