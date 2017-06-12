@@ -52,7 +52,7 @@ export default class CreatePersonDialog extends React.Component {
     const name = target.name;
 
     this.setState({
-      [name]: value.trim().replace(" ", ""),
+      [name]: value.trim(),
     });
   }
 

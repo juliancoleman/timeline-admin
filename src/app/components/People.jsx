@@ -74,7 +74,13 @@ export default class People extends React.Component {
 
   handleDialogSubmit(user) {
     return () => Api.createUser(user)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return alert("Unable to create person. Please verify form fields and try again");
+      })
       .then((createdUser) => {
         this.setState({ dialogOpen: false }, () => {
           this.props.history.push(`/person/${createdUser.id}`);
