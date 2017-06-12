@@ -52,7 +52,7 @@ export default class CreatePersonDialog extends React.Component {
     const name = target.name;
 
     this.setState({
-      [name]: value,
+      [name]: value.trim().replace(" ", ""),
     });
   }
 
@@ -114,6 +114,7 @@ export default class CreatePersonDialog extends React.Component {
           <TextField
             name="email_address"
             floatingLabelText="Email address"
+            type="email"
             style={style.TextField}
             value={this.state.email_address}
             onChange={this.handleInputChange}
