@@ -90,6 +90,7 @@ export default class People extends React.Component {
 
   render() {
     const { page, pageCount } = this.state.paginationData;
+
     return (
       <div>
         <Card style={{ margin: 8 }}>
@@ -129,7 +130,7 @@ export default class People extends React.Component {
               disabled={page === pageCount}
               onTouchTap={() => this.getUsers(page + 1)}
             />
-            page {page} of {pageCount}
+            <p>page {page} of {pageCount}</p>
           </CardActions>
         </Card>
 
