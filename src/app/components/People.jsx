@@ -26,13 +26,13 @@ export default class People extends React.Component {
 
     this.state = {
       people: [],
-      pageSize: 25,
+      pageSize: 20,
       page: 1,
       dialogOpen: false,
       paginationData: {
         page: 1,
         pageCount: 1,
-        pageSize: 25,
+        pageSize: 20,
         rowCount: 1,
       },
       tableHeaders: [
@@ -130,6 +130,7 @@ export default class People extends React.Component {
               onTouchTap={() => this.getUsers(page + 1)}
             />
           </CardActions>
+          page {page} of {pageCount}
         </Card>
 
         <CreatePersonDialog
