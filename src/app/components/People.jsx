@@ -130,7 +130,7 @@ export default class People extends React.Component {
               disabled={page === pageCount}
               onTouchTap={() => this.getUsers(page + 1)}
             />
-            <p>page {page} of {pageCount}</p>
+            <span>page {page} of {pageCount}</span>
           </CardActions>
         </Card>
 
