@@ -36,11 +36,11 @@ export default class People extends React.Component {
         rowCount: 1,
       },
       tableHeaders: [
-        { key: 1, header: "id", title: "id" },
-        { key: 2, header: "firstName", title: "First name" },
-        { key: 3, header: "lastName", title: "Last name" },
-        { key: 4, header: "campus", title: "Campus" },
-        { key: 5, header: "barcodeNumber", title: "Barcode number" },
+        { key: 1, header: "firstName", title: "First name" },
+        { key: 2, header: "lastName", title: "Last name" },
+        { key: 3, header: "campus", title: "Campus" },
+        { key: 4, header: "barcodeNumber", title: "Barcode number" },
+        { key: 4, header: "emailAddress", title: "Email address" },
       ],
     };
 
