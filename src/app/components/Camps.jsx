@@ -78,7 +78,7 @@ export default class Camps extends React.Component {
         <Card key={id}>
           <CardTitle title={cardTitle} subtitle={`${enrollment} students`} />
           <CardText>
-            Bus {busNumber} - {type}
+            Group {busNumber} - {type}
           </CardText>
           <CardActions>
             <FlatButton label="view" onTouchTap={() => this.props.history.push(`/camp/${id}`)} />
